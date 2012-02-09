@@ -20,6 +20,15 @@ Peoplematch3::Application.configure do
   # Generate digests for assets URLs
   config.assets.digest = true
 
+config.action_mailer.default_url_options = { :host => 'yourhost.com' }
+# ActionMailer Config
+# Setup for production - deliveries, no errors raised
+config.action_mailer.delivery_method = :smtp
+config.action_mailer.perform_deliveries = true
+config.action_mailer.raise_delivery_errors = false
+config.action_mailer.default :charset => "utf-8"
+  
+
   # Defaults to Rails.root.join("public/assets")
   # config.assets.manifest = YOUR_PATH
 
