@@ -5,6 +5,7 @@ gem 'rails', '3.1.1'
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
+# Moved to group development for Herkou issue
 gem 'sqlite3', '1.3.4', :group => :development
 #gem 'mysql2'
 
