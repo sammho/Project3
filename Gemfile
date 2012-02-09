@@ -8,6 +8,7 @@ gem 'rails', '3.1.1'
 # Moved to group development for Herkou issue
 gem 'sqlite3', '1.3.4', :group => :development
 #gem 'mysql2'
+gem 'pg', :group => :production
 
 gem 'devise', '>= 1.4.9'
 
