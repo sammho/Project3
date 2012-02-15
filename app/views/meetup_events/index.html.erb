@@ -1,0 +1,34 @@
+<h1>Listing meetup_events</h1>
+
+<table>
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @meetup_events.each do |meetup_event| %>
+  <tr>
+    <td><%= link_to 'Show', meetup_event %></td>
+    <td><%= link_to 'Edit', edit_meetup_event_path(meetup_event) %></td>
+    <td><%= link_to 'Destroy', meetup_event, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<table>
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% #@results.each do |result| %>
+  <tr>
+    <%= @results %>
+  </tr>
+<% #end %>
+</table>
+<br />
+
+<%= link_to 'New Meetup event', new_meetup_event_path %>

@@ -1,6 +1,8 @@
 Peoplematch3::Application.routes.draw do
 
 
+  resources :meetup_events
+
   root :to => "home#index"
   devise_for :users
   
