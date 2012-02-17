@@ -19,7 +19,11 @@ class MeetupEventsController < ApplicationController
   # GET /meetup_events/1
   # GET /meetup_events/1.json
   def show
-    @meetup_event = MeetupEvent.find(params[:id])
+    # Removing this as the meetup event won't be stored in the DB for now
+    # TODO: figure out how to create a duplicate entry
+    # @meetup_event = MeetupEvent.find(params[:id])
+
+    @meetup_rsvps = RMeetup::Client.fetch(:rsvps,{:event_id => params[:id]})
 
     respond_to do |format|
       format.html # show.html.erb

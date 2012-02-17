@@ -1,5 +1,18 @@
 <p id="notice"><%= notice %></p>
 
 
-<%= link_to 'Edit', edit_meetup_event_path(@meetup_event) %> |
-<%= link_to 'Back', meetup_events_path %>
+<table>
+  <tr>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @meetup_rsvps.each do |meetup_rsvp| %>
+  <tr>
+    <td><%= image_tag(meetup_rsvp.photo_url, :border => 0, :width => "32") %></td>
+    <td><%= link_to meetup_rsvp.name, meetup_rsvp.link %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= @meetup_rsvps %>
