@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @meetup_member.name %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%= @meetup_member.user_id %>
+</p>
+
+<p>
+  <b>Image url:</b>
+  <%= @meetup_member.image_url %>
+</p>
+
+<p>
+  <b>Linkedin url:</b>
+  <%= @meetup_member.linkedin_url %>
+</p>
+
+<p>
+  <b>Twitter:</b>
+  <%= @meetup_member.twitter %>
+</p>
+
+<p>
+  <b>Meetup:</b>
+  <%= @meetup_member.meetup_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_meetup_member_path(@meetup_member) %> |
+<%= link_to 'Back', meetup_members_path %>

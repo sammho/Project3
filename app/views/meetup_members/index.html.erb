@@ -1,0 +1,33 @@
+<h1>Listing meetup_members</h1>
+
+<table>
+  <tr>
+    <th>Pic</th>
+    <th>Name</th>
+    <th>User</th>
+    <th>Linkedin url</th>
+    <th>Twitter</th>
+    <th>Meetup</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @meetup_members.each do |meetup_member| %>
+  <tr>
+    <td><%= image_tag(meetup_member.image_url, :border => 0, :width => 32) %> </td>
+    <td><%= meetup_member.name %></td>
+    <td><%= meetup_member.user_id %></td>
+    <td><%= link_to 'LinkedIn', meetup_member.linkedin_url %></td>
+    <td><%= meetup_member.twitter %></td>
+    <td><%= link_to 'Meetup Profile', "http://www.meetup.com/members/#{meetup_member.meetup_id}"%></td>
+    <td><%= link_to 'Show', meetup_member %></td>
+    <td><%= link_to 'Edit', edit_meetup_member_path(meetup_member) %></td>
+    <td><%= link_to 'Destroy', meetup_member, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Meetup member', new_meetup_member_path %>

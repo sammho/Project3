@@ -1,0 +1,45 @@
+<%= form_for(@meetup_member) do |f| %>
+  <% if @meetup_member.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@meetup_member.errors.count, "error") %> prohibited this meetup_member from being saved:</h2>
+
+      <ul>
+      <% @meetup_member.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :user_id %><br />
+    <%= f.number_field :user_id %>
+  </div>
+  <div class="field">
+    <%= f.label :unparsed_json %><br />
+    <%= f.text_area :unparsed_json %>
+  </div>
+  <div class="field">
+    <%= f.label :image_url %><br />
+    <%= f.text_field :image_url %>
+  </div>
+  <div class="field">
+    <%= f.label :linkedin_url %><br />
+    <%= f.text_field :linkedin_url %>
+  </div>
+  <div class="field">
+    <%= f.label :twitter %><br />
+    <%= f.text_field :twitter %>
+  </div>
+  <div class="field">
+    <%= f.label :meetup_id %><br />
+    <%= f.number_field :meetup_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -16,3 +16,19 @@
 </table>
 
 <%= @meetup_rsvps %>
+
+<table>
+  <tr>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @rsvpd_members.each do |meetup_rsvp| %>
+  <tr>
+    <td><%= image_tag(meetup_rsvp.photo_url, :border => 0, :width => "32") %></td>
+    <td><%= link_to meetup_rsvp.name, meetup_rsvp.link %></td>
+  </tr>
+<% end %>
+</table>
+
+<%=@rsvpd_members %>

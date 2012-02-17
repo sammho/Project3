@@ -24,6 +24,14 @@ class MeetupEventsController < ApplicationController
     # @meetup_event = MeetupEvent.find(params[:id])
 
     @meetup_rsvps = RMeetup::Client.fetch(:rsvps,{:event_id => params[:id]})
+    @rsvpd_members = []
+
+    @meetup_rsvps.each do |meetup_member|
+      #Pull their linkedin profile
+      # pull their twitter profile
+      @rsvpd_members << RMeetup::Client.fetch(:members, {:member_id => meetup_member.member_id})
+    end
+      
 
     respond_to do |format|
       format.html # show.html.erb
