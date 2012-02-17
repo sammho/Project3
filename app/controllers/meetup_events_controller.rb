@@ -7,7 +7,8 @@ class MeetupEventsController < ApplicationController
   def index
     @meetup_events = MeetupEvent.all
 
-    @results = RMeetup::Client.fetch(:members,{:member_id => "6442685"})
+    #@results = RMeetup::Client.fetch(:members,{:member_id => "6442685"})
+    @results = RMeetup::Client.fetch(:events,{:member_id => "6442685"})
 
     respond_to do |format|
       format.html # index.html.erb

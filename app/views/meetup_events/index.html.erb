@@ -20,15 +20,17 @@
   <tr>
     <th></th>
     <th></th>
-    <th></th>
   </tr>
 
-<% #@results.each do |result| %>
+<% @results.each do |result| %>
   <tr>
-    <%= @results %>
+    <td><%= link_to result.name, result.event_url %></td>
+    <td><%= result.group%></td>
   </tr>
-<% #end %>
+<% end %>
 </table>
+
+<%= @results %>
 <br />
 
 <%= link_to 'New Meetup event', new_meetup_event_path %>
