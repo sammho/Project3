@@ -25,7 +25,8 @@
 <% @results.each do |result| %>
   <tr>
     <td><%= link_to result.name, result.event_url %></td>
-    <td><%= result.group%></td>
+    <td><%= result.rsvpcount%></td>
+    <td><%= result.time.strftime("%a %b %d") %></td>
   </tr>
 <% end %>
 </table>
