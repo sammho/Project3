@@ -35,6 +35,8 @@ class MeetupEventsController < ApplicationController
 
       if MeetupMember.find_by_meetup_id(meetup_member.member_id)
         puts "success for #{meetup_member.member_id}"
+        @rsvpd_members << MeetupMember.find_by_meetup_id(meetup_member.member_id)
+        
       else
         puts "Looking up user for #{meetup_member.member_id}"
       end
