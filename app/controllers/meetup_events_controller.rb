@@ -29,7 +29,15 @@ class MeetupEventsController < ApplicationController
     @meetup_rsvps.each do |meetup_member|
       #Pull their linkedin profile
       # pull their twitter profile
-      @rsvpd_members << RMeetup::Client.fetch(:members, {:member_id => meetup_member.member_id})
+
+      #if MeetupMember.find(meetup_member.member_id
+      #@rsvpd_members << RMeetup::Client.fetch(:members, {:member_id => meetup_member.member_id})
+
+      if MeetupMember.find_by_meetup_id(meetup_member.member_id)
+        puts "success for #{meetup_member.member_id}"
+      else
+        puts "Looking up user for #{meetup_member.member_id}"
+      end
     end
       
 
