@@ -7,16 +7,6 @@
     <th></th>
   </tr>
 
-<% @meetup_rsvps.each do |meetup_rsvp| %>
-  <tr>
-    <td><%= image_tag(meetup_rsvp.photo_url, :border => 0, :width => "32") %></td>
-    <td><%= link_to meetup_rsvp.name, meetup_rsvp.link %></td>
-  </tr>
-<% end %>
-</table>
-
-<%= @meetup_rsvps %>
-
 <table>
   <tr>
     <th></th>
@@ -27,6 +17,7 @@
   <tr>
     <td><%= image_tag(meetup_member.image_url, :border => 0, :width => "32") %></td>
     <td><%= link_to meetup_member.name, "http://www.meetup.com/members/#{meetup_member.meetup_id}" %></td>
+    <td><%= meetup_member.unparsed_json.inspect %></td>
   </tr>
 <% end %>
 </table>
