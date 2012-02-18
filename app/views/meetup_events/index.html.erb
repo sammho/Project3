@@ -18,15 +18,18 @@
 
 <table>
   <tr>
-    <th></th>
-    <th></th>
+    <th>Title</th>
+    <th>Attendees</th>
+    <th>Date</th>
+    <th>Meetup Page</th>
   </tr>
 
 <% @results.each do |result| %>
   <tr>
-    <td><%= link_to result.name, result.event_url %></td>
+    <td><%= link_to result.name, "#{meetup_events_path}/#{result.id}" %></td>
     <td><%= result.rsvpcount%></td>
     <td><%= result.time.strftime("%a %b %d") %></td>
+    <td><%= link_to "Link", result.event_url %></td>
   </tr>
 <% end %>
 </table>
