@@ -41,16 +41,20 @@ class MeetupEventsController < ApplicationController
 
         if member.first.other_services["linkedin"] && 
             member.first.other_services["linkedin"]["identifier"] =~ /.*linkedin.com.*/
-          linkedin_re = /linkedin.com\/in\/(\w+)/
-          linked_in_url = linkedin_re.match(member.first.other_services["linkedin"]["identifier"])
 
-          # Technically this is just the name and not the URL
-          linked_in_url = $1
+            # for now, let's not extract the field, let's just use the link directly
+
+          linked_in_url = member.first.other_services["linkedin"]["identifier"]
+          #linkedin_re = /linkedin.com\/in\/(\w+)/
+          #linked_in_url = linkedin_re.match(member.first.other_services["linkedin"]["identifier"])
+
+          ## Technically this is just the name and not the URL
+          #linked_in_url = $1
 
           puts "Found match for #{meetup_member.name}\n"
 
         else
-          linked_in_url = ""
+          linked_in_url = nil 
           puts "Found  NO match for #{meetup_member.name}\n"
         end
 
@@ -62,7 +66,7 @@ class MeetupEventsController < ApplicationController
           puts "Found twitter match for #{meetup_member.name}\n"
 
         else
-          twitter = ""
+          twitter = nil
           puts "Found  NO twitter match for #{meetup_member.name}\n"
         end
 
