@@ -1,15 +1,11 @@
 <p id="notice"><%= notice %></p>
 
-
 <table>
   <tr>
     <th></th>
-    <th></th>
-  </tr>
-
-<table>
-  <tr>
-    <th></th>
+    <th>Name</th>
+    <th>Twitter</th>
+    <th>LinkedIn</th>
     <th></th>
   </tr>
 
@@ -17,6 +13,8 @@
   <tr>
     <td><%= image_tag(meetup_member.image_url, :border => 0, :width => "32") %></td>
     <td><%= link_to meetup_member.name, "http://www.meetup.com/members/#{meetup_member.meetup_id}" %></td>
+    <td><%= link_to meetup_member.twitter, "http://twitter.com/#{meetup_member.twitter}" %> </td>
+    <td><%= link_to meetup_member.linkedin_url, "http://linkedin.com/in/#{meetup_member.linkedin_url}" %> </td>
     <td><%= meetup_member.unparsed_json.inspect %></td>
   </tr>
 <% end %>

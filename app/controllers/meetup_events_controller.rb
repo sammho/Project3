@@ -1,6 +1,7 @@
 class MeetupEventsController < ApplicationController
   # GET /meetup_events
   # GET /meetup_events.json
+  require 'iconv'
 
   RMeetup::Client.api_key = "1f5d31256d715b1f31295f74324c3d21"
   
@@ -65,9 +66,21 @@ class MeetupEventsController < ApplicationController
           puts "Found  NO twitter match for #{meetup_member.name}\n"
         end
 
-        @rsvpd_members << MeetupMember.create!(:name => meetup_member.name, 
+        # Need to clean up bad utf-8 characters that are causing errors
+        ic = Iconv.new('UTF-8//IGNORE', 'UTF-8')
+        clean_name = ic.iconv(meetup_member.name + ' ')[0..-2]
+
+        # Need to clean up topics because of utf-8, let's just pull out the topic ids and store
+        @topics = []
+        member.first.topics.each do |topic|
+          @topics << topic["id"]
+
+        end
+
+        @rsvpd_members << MeetupMember.create!(:name => clean_name, 
                                                 :meetup_id => meetup_member.member_id, 
-                                                :unparsed_json => member,
+                                                #:unparsed_json => member.first.topics,
+                                                :unparsed_json => @topics, 
                                                 :image_url => meetup_member.photo_url,
                                                 :linkedin_url => linked_in_url,
                                                 :twitter =>   twitter )
