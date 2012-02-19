@@ -27,27 +27,50 @@ class MeetupEventsController < ApplicationController
     @rsvpd_members = []
 
     @meetup_rsvps.each do |meetup_member|
-      #Pull their linkedin profile
-      # pull their twitter profile
-
-      #if MeetupMember.find(meetup_member.member_id
-      #@rsvpd_members << RMeetup::Client.fetch(:members, {:member_id => meetup_member.member_id})
-
-      @test_members = []
 
       if MeetupMember.find_by_meetup_id(meetup_member.member_id)
         puts "success for #{meetup_member.member_id}"
         @rsvpd_members << MeetupMember.find_by_meetup_id(meetup_member.member_id)
         
       else
-        # TODO: Figure out why member.zip is returning object, and not field
+        # TODO: there is an issue here with utf-8 characters, so non-standard characters
+        # cause an error
         member = RMeetup::Client.fetch(:members, {:member_id => meetup_member.member_id})
+        puts "working on #{meetup_member.member_id} #{member.first.other_services} class is: #{member.first.other_services.class}"
+
+        if member.first.other_services["linkedin"] && 
+            member.first.other_services["linkedin"]["identifier"] =~ /.*linkedin.com.*/
+          linkedin_re = /linkedin.com\/in\/(\w+)/
+          linked_in_url = linkedin_re.match(member.first.other_services["linkedin"]["identifier"])
+
+          # Technically this is just the name and not the URL
+          linked_in_url = $1
+
+          puts "Found match for #{meetup_member.name}\n"
+
+        else
+          linked_in_url = ""
+          puts "Found  NO match for #{meetup_member.name}\n"
+        end
+
+
+        if member.first.other_services["twitter"]
+
+            twitter = member.first.other_services["twitter"]["identifier"]
+
+          puts "Found twitter match for #{meetup_member.name}\n"
+
+        else
+          twitter = ""
+          puts "Found  NO twitter match for #{meetup_member.name}\n"
+        end
+
         @rsvpd_members << MeetupMember.create!(:name => meetup_member.name, 
                                                 :meetup_id => meetup_member.member_id, 
                                                 :unparsed_json => member,
                                                 :image_url => meetup_member.photo_url,
-                                                :linkedin_url => member.zip,
-                                                :twitter =>   "" )
+                                                :linkedin_url => linked_in_url,
+                                                :twitter =>   twitter )
       end
     end
       
