@@ -106,6 +106,7 @@ GEM
       treetop (~> 1.4.8)
     mime-types (1.17.2)
     multi_json (1.0.4)
+    mysql2 (0.3.11)
     nokogiri (1.5.0)
     orm_adapter (0.0.6)
     pg (0.13.0)
@@ -210,6 +211,7 @@ DEPENDENCIES
   jquery-rails
   json
   launchy (>= 2.0.5)
+  mysql2
   pg
   rMeetup
   rails (= 3.1.1)
