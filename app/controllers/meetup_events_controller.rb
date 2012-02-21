@@ -79,6 +79,15 @@ class MeetupEventsController < ApplicationController
         member.first.topics.each do |topic|
           @topics << topic["id"]
 
+          if MeetupTopic.find_by_meetup_id(topic["id"])
+            puts "Found #{topic["id"]}"
+
+          else
+            MeetupTopic.create!(:meetup_id => topic["id"],
+                                :urlkey => topic["urlkey"],
+                                :name => topic["name"])
+          end
+
         end
 
         @rsvpd_members << MeetupMember.create!(:name => clean_name, 

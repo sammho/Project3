@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Id:</b>
+  <%= @meetup_topic.id %>
+</p>
+
+<p>
+  <b>Urlkey:</b>
+  <%= @meetup_topic.urlkey %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%= @meetup_topic.name %>
+</p>
+
+
+<%= link_to 'Edit', edit_meetup_topic_path(@meetup_topic) %> |
+<%= link_to 'Back', meetup_topics_path %>

@@ -5,7 +5,7 @@ end
 #
 # Table name: meetup_events
 #
-#  id         :integer         not null, primary key
+#  id         :integer(4)      not null, primary key
 #  created_at :datetime
 #  updated_at :datetime
 #

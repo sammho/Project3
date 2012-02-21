@@ -1,0 +1,27 @@
+<h1>Listing meetup_topics</h1>
+
+<table>
+  <tr>
+    <th>Id</th>
+    <th>Urlkey</th>
+    <th>Name</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @meetup_topics.each do |meetup_topic| %>
+  <tr>
+    <td><%= meetup_topic.id %></td>
+    <td><%= meetup_topic.urlkey %></td>
+    <td><%= meetup_topic.name %></td>
+    <td><%= link_to 'Show', meetup_topic %></td>
+    <td><%= link_to 'Edit', edit_meetup_topic_path(meetup_topic) %></td>
+    <td><%= link_to 'Destroy', meetup_topic, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Meetup topic', new_meetup_topic_path %>

@@ -1,6 +1,8 @@
 Peoplematch3::Application.routes.draw do
 
 
+  resources :meetup_topics
+
   resources :meetup_members
 
   resources :meetup_events

@@ -1,0 +1,29 @@
+<%= form_for(@meetup_topic) do |f| %>
+  <% if @meetup_topic.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@meetup_topic.errors.count, "error") %> prohibited this meetup_topic from being saved:</h2>
+
+      <ul>
+      <% @meetup_topic.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :id %><br />
+    <%= f.number_field :id %>
+  </div>
+  <div class="field">
+    <%= f.label :urlkey %><br />
+    <%= f.text_field :urlkey %>
+  </div>
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
