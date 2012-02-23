@@ -1,6 +1,7 @@
 class MeetupMember < ActiveRecord::Base
 
   validates(:meetup_id, :presence => true)
+  serialize :unparsed_json
 end
 
 # == Schema Information

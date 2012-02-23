@@ -24,14 +24,35 @@ class MeetupEventsController < ApplicationController
     # TODO: figure out how to create a duplicate entry
     # @meetup_event = MeetupEvent.find(params[:id])
 
+    # Unfortunately the old events doesn't support this lookup
+    #@event_details = RMeetup::Client.fetch(:events,{:event_id => params[:id]})
+
     @meetup_rsvps = RMeetup::Client.fetch(:rsvps,{:event_id => params[:id]})
     @rsvpd_members = []
+    @my_topics = MeetupMember.find_by_meetup_id(6442685).unparsed_json
 
     @meetup_rsvps.each do |meetup_member|
 
       if MeetupMember.find_by_meetup_id(meetup_member.member_id)
         puts "success for #{meetup_member.member_id}"
-        @rsvpd_members << MeetupMember.find_by_meetup_id(meetup_member.member_id)
+        found_member =  MeetupMember.find_by_meetup_id(meetup_member.member_id)
+        @rsvpd_members <<  found_member
+
+        puts "Topics are #{found_member.unparsed_json}"
+        #puts "Class is #{found_member.unparsed_json.class}"
+        puts "Class is #{@my_topics.class}"
+        puts "MyTopics is #{@my_topics}"
+
+
+        num_topics_in_common = 0
+        found_member.unparsed_json.each do |topic|
+          if @my_topics.include?(topic)
+            puts "Topic #{topic} matched!"
+          else
+          end
+          
+
+        end
         
       else
         # TODO: there is an issue here with utf-8 characters, so non-standard characters
@@ -77,6 +98,7 @@ class MeetupEventsController < ApplicationController
         # Need to clean up topics because of utf-8, let's just pull out the topic ids and store
         @topics = []
         member.first.topics.each do |topic|
+          topic_id = topic["id"].to_i
           @topics << topic["id"]
 
           if MeetupTopic.find_by_meetup_id(topic["id"])
