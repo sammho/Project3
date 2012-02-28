@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120221211537) do
+ActiveRecord::Schema.define(:version => 20120228210004) do
 
   create_table "meetup_events", :force => true do |t|
     t.datetime "created_at"
@@ -36,6 +36,16 @@ ActiveRecord::Schema.define(:version => 20120221211537) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "meetup_id"
+  end
+
+  create_table "user_affinities", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "target_user_id"
+    t.integer  "t_meetup_member_id"
+    t.string   "meetup_topics_in_common"
+    t.integer  "affinity_score"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", :force => true do |t|
