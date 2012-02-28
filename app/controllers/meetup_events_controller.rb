@@ -31,6 +31,8 @@ class MeetupEventsController < ApplicationController
     @rsvpd_members = []
     @my_topics = MeetupMember.find_by_meetup_id(6442685).unparsed_json
 
+    @topics_in_common_by_member = []
+
     @meetup_rsvps.each do |meetup_member|
 
       if MeetupMember.find_by_meetup_id(meetup_member.member_id)
@@ -44,15 +46,24 @@ class MeetupEventsController < ApplicationController
         puts "MyTopics is #{@my_topics}"
 
 
+        #####################################################################
+        ## This section needs to be moved out of this if loop to run for both
+        ## TODO: Should be defined as a separate funciton
         num_topics_in_common = 0
+
         found_member.unparsed_json.each do |topic|
           if @my_topics.include?(topic)
             puts "Topic #{topic} matched!"
+            num_topics_in_common += 1
           else
           end
-          
 
         end
+
+        # TODO: this is really broken as it relies on all members being found
+        # If any members require meetup api lookup it will throw off the array alignment
+        @topics_in_common_by_member << num_topics_in_common
+        #####################################################################
         
       else
         # TODO: there is an issue here with utf-8 characters, so non-standard characters

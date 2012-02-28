@@ -6,6 +6,7 @@
     <th>Name</th>
     <th>Twitter</th>
     <th>LinkedIn</th>
+    <th>Topics in Common</th>
     <th></th>
   </tr>
 
@@ -23,6 +24,7 @@
     <% else %>
       <td></td>
     <% end %>
+    <td><%= @topics_in_common_by_member.shift %></td>
     <td><%= meetup_member.unparsed_json %></td>
   </tr>
 <% end %>
