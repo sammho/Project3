@@ -1,5 +1,6 @@
 class UserAffinity < ActiveRecord::Base
   serialize :meetup_topics_in_common
+  belongs_to :user
 end
 
 # == Schema Information

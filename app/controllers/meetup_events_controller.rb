@@ -40,30 +40,9 @@ class MeetupEventsController < ApplicationController
         found_member =  MeetupMember.find_by_meetup_id(meetup_member.member_id)
         @rsvpd_members <<  found_member
 
-        puts "Topics are #{found_member.unparsed_json}"
-        #puts "Class is #{found_member.unparsed_json.class}"
-        puts "Class is #{@my_topics.class}"
-        puts "MyTopics is #{@my_topics}"
+        @common_topics = current_user.topics_in_common(found_member)
 
-
-        #####################################################################
-        ## This section needs to be moved out of this if loop to run for both
-        ## TODO: Should be defined as a separate funciton
-        num_topics_in_common = 0
-
-        found_member.unparsed_json.each do |topic|
-          if @my_topics.include?(topic)
-            puts "Topic #{topic} matched!"
-            num_topics_in_common += 1
-          else
-          end
-
-        end
-
-        # TODO: this is really broken as it relies on all members being found
-        # If any members require meetup api lookup it will throw off the array alignment
-        @topics_in_common_by_member << num_topics_in_common
-        #####################################################################
+        @topics_in_common_by_member << @common_topics.count
         
       else
         # TODO: there is an issue here with utf-8 characters, so non-standard characters
