@@ -24,7 +24,7 @@
     <% else %>
       <td></td>
     <% end %>
-    <td><%= @topics_in_common_by_member.shift %></td>
+    <td><%= current_user.topics_in_common(meetup_member).count %></td>
     <td><%= meetup_member.unparsed_json %></td>
   </tr>
 <% end %>

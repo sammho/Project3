@@ -13,27 +13,19 @@ class User < ActiveRecord::Base
   def topics_in_common(found_member)
     @my_topics = MeetupMember.find(self.id).unparsed_json
 
-      ## This section needs to be moved out of this if loop to run for both
-      ## TODO: Should be defined as a separate funciton
-      @common_topics = []
+    @common_topics = []
 
-      found_member.unparsed_json.each do |topic|
-        if @my_topics.include?(topic)
-          @common_topics << topic
-        else
-        end
-
+    found_member.unparsed_json.each do |topic|
+      if @my_topics.include?(topic)
+        @common_topics << topic
+      else
       end
-      
-      puts "User topics in common: #{@common_topics} !"
 
-      return @common_topics
+    end
+    
+    puts "User #{self.id} topics in common: #{@common_topics} !"
 
-      # TODO: this is really broken as it relies on all members being found
-      # If any members require meetup api lookup it will throw off the array alignment
-      #@topics_in_common_by_member << num_topics_in_common
-      #####################################################################
-
+    return @common_topics
   end
 end
 

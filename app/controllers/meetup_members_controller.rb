@@ -53,6 +53,7 @@ class MeetupMembersController < ApplicationController
     end
   end
 
+
   # PUT /meetup_members/1
   # PUT /meetup_members/1.json
   def update
