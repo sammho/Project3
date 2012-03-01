@@ -2,7 +2,6 @@ class MeetupEventsController < ApplicationController
   # GET /meetup_events
   # GET /meetup_events.json
   require 'iconv'
-  require 'rMeetup'
 
   RMeetup::Client.api_key = "1f5d31256d715b1f31295f74324c3d21"
   
