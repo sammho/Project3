@@ -202,6 +202,7 @@ DEPENDENCIES
   autotest-fsevent (= 0.2.4)
   autotest-growl (= 0.2.9)
   autotest-rails-pure (= 4.1.2)
+  bundler (= 1.0.21)
   capybara (>= 1.1.1)
   coffee-rails (~> 3.1.1)
   cucumber-rails (>= 1.1.1)
