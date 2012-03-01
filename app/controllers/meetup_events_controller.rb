@@ -45,9 +45,7 @@ class MeetupEventsController < ApplicationController
     # TODO: figure out how to create a duplicate entry
     # @meetup_event = MeetupEvent.find(params[:id])
 
-    # Unfortunately the old events doesn't support this lookup
     @event_details = RMeetup::Client.fetch(:events,{:id => params[:id]}).first
-    puts @event_details.to_yaml
 
     @meetup_rsvps = RMeetup::Client.fetch(:rsvps,{:event_id => params[:id]})
     @rsvpd_members = []
