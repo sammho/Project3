@@ -24,9 +24,14 @@
     <th>Meetup Page</th>
   </tr>
 
+<% require 'iconv' %>
 <% @results.each do |result| %>
   <tr>
-    <td><%= link_to result.name, "#{meetup_events_path}/#{result.id}" %></td>
+  <%
+      ic = Iconv.new('UTF-8//IGNORE', 'UTF-8')
+      clean_name = ic.iconv(result.name + ' ')[0..-2]
+  %>
+    <td><%= link_to clean_name, "#{meetup_events_path}/#{result.id}" %></td>
     <td><%= result.rsvpcount%></td>
     <td><%= result.time.strftime("%a %b %d") %></td>
     <td><%= link_to "Link", result.event_url %></td>

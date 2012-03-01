@@ -10,6 +10,10 @@ class User < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name, :email, :case_sensitive => false
 
+  def meetup_member_id
+   return MeetupMember.find_by_user_id(self.id).meetup_id
+  end
+
   def topics_in_common(found_member)
     @my_topics = MeetupMember.find(self.id).unparsed_json
 

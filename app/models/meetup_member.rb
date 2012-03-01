@@ -3,6 +3,11 @@ class MeetupMember < ActiveRecord::Base
   validates(:meetup_id, :presence => true)
   serialize :unparsed_json
 
+  require 'iconv'
+
+  ## TODO: I may be able to do this as a Class Method self.xyz 
+  ## so that I don't have to create an empty object first
+
   def update_member_from_meetup_api(meetup_member_id)
     member = RMeetup::Client.fetch(:members, {:member_id => meetup_member_id}).first
 
