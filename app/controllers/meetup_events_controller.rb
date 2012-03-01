@@ -9,8 +9,8 @@ class MeetupEventsController < ApplicationController
     @meetup_events = MeetupEvent.all
 
     #@results = RMeetup::Client.fetch(:members,{:member_id => "6442685"})
-    @results = RMeetup::Client.fetch(:events,{:member_id => "6442685", :text_format => "plain"})
-    #@results = RMeetup::Client.fetch(:events,{:member_id => current_user.meetup_member_id})
+   # @results = RMeetup::Client.fetch(:events,{:member_id => "6442685", :text_format => "plain"})
+    @results = RMeetup::Client.fetch(:events,{:member_id => current_user.meetup_member_id})
 
    # test_result = @results.first
    # puts "***************\n"
