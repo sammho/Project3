@@ -1,6 +1,8 @@
 Peoplematch3::Application.routes.draw do
 
 
+  get "user_affinities/calculate_scores"
+
   resources :meetup_topics
 
   resources :meetup_members

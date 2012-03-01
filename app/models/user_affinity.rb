@@ -15,5 +15,7 @@ end
 #  affinity_score          :integer(4)
 #  created_at              :datetime
 #  updated_at              :datetime
+#  linked_in               :boolean(1)
+#  twitter                 :boolean(1)
 #
 
