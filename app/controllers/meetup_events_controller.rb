@@ -46,7 +46,8 @@ class MeetupEventsController < ApplicationController
     # @meetup_event = MeetupEvent.find(params[:id])
 
     # Unfortunately the old events doesn't support this lookup
-    #@event_details = RMeetup::Client.fetch(:events,{:event_id => params[:id]})
+    @event_details = RMeetup::Client.fetch(:events,{:id => params[:id]}).first
+    puts @event_details.to_yaml
 
     @meetup_rsvps = RMeetup::Client.fetch(:rsvps,{:event_id => params[:id]})
     @rsvpd_members = []

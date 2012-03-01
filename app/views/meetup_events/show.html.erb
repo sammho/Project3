@@ -2,6 +2,29 @@
 
 <table>
   <tr>
+    <td>Name: </td>
+    <td><%= link_to @event_details.name, @event_details.event_url %> </td>
+  </tr>
+  <tr>
+    <td>Date: </td>
+    <td><%= @event_details.time.strftime("%a %b %d") %></td>
+  </tr>
+  <tr>
+    <td>Group: </td>
+    <td><%= @event_details.group_name %>
+  </tr>
+  <tr>
+    <td>Venue: </td>
+    <td><%= @event_details.venue_name %></td>
+    <td><%= @event_details.venue_address1 %> </td>
+  </tr>
+    
+
+</table>
+
+
+<table>
+  <tr>
     <th></th>
     <th>Name</th>
     <th>Twitter</th>
