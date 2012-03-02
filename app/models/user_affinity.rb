@@ -1,6 +1,8 @@
 class UserAffinity < ActiveRecord::Base
   serialize :meetup_topics_in_common
   belongs_to :user
+
+  ## TODO: Should add validation that user_id: t_meetup_member_id pairs should be unique
 end
 
 # == Schema Information
