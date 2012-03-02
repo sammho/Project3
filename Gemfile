@@ -4,6 +4,9 @@ gem 'rails', '3.1.1'
 gem 'rMeetup'
 gem 'json'
 
+# Added for heroku issue
+gem 'bundler', '1.0.21'
+
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
