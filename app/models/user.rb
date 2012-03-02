@@ -26,21 +26,42 @@ class User < ActiveRecord::Base
       end
 
     end
-    
-    puts "User #{self.id} topics in common: #{@common_topics} !"
 
     return @common_topics
   end
 
   def calculate_affinity(target_member)
-    self.topics_in_common(target_member) # Is this necessary? 
-    self.topics_in_common(target_member).count  
+    #TODO: figure out how to use topics_in_common (refactor)
+    @my_topics = MeetupMember.find(self.id).unparsed_json
 
-    MeetupMember.find_by_user_id(self.id).unparsed_json.count 
-    target_member.unparsed_json.count 
-    !target_member.linkedin_url.nil? 
-    !target_member.twitter.nil? 
+    @common_topics = []
 
+
+    if target_member.unparsed_json.nil?
+      puts "\nERROR #{target_member.inspect}\n"
+    else
+      target_member.unparsed_json.each do |topic|
+        if @my_topics.include?(topic)
+          @common_topics << topic
+        end
+
+      end
+    end
+
+    ###############################################
+
+    affinity = UserAffinity.new
+    affinity.user_id = id
+    affinity.t_meetup_member_id = target_member.meetup_id
+    affinity.meetup_topics_in_common = @common_topics
+    affinity.linked_in = !target_member.linkedin_url.nil? 
+    affinity.twitter = !target_member.twitter.nil? 
+
+    @common_topics.count
+    MeetupMember.find_by_user_id(id).unparsed_json.count 
+    #target_member.unparsed_json.count 
+
+    affinity.save
   end
 end
 
