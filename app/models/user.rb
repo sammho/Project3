@@ -31,6 +31,17 @@ class User < ActiveRecord::Base
 
     return @common_topics
   end
+
+  def calculate_affinity(target_member)
+    self.topics_in_common(target_member) # Is this necessary? 
+    self.topics_in_common(target_member).count  
+
+    MeetupMember.find_by_user_id(self.id).unparsed_json.count 
+    target_member.unparsed_json.count 
+    !target_member.linkedin_url.nil? 
+    !target_member.twitter.nil? 
+
+  end
 end
 
 # == Schema Information
