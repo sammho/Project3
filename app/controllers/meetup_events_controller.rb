@@ -54,16 +54,18 @@ class MeetupEventsController < ApplicationController
 
       # TODO: I should be able to change this to first_or_create!
       if MeetupMember.find_by_meetup_id(meetup_member.member_id)
-        found_member =  MeetupMember.find_by_meetup_id(meetup_member.member_id)
-        @rsvpd_members <<  found_member
+        found_or_new_member =  MeetupMember.find_by_meetup_id(meetup_member.member_id)
+        @rsvpd_members <<  found_or_new_member
 
       else
         # What if I create an empty member and then update it or call update function?
         #@rsvpd_members << create_member_from_meetup_api(meetup_member.member_id)
         new_member_id = meetup_member.member_id
-        new_member = MeetupMember.create!(:meetup_id => meetup_member.member_id)
-        @rsvpd_members << new_member.update_member_from_meetup_api(new_member_id)
+        found_or_new_member = MeetupMember.create!(:meetup_id => meetup_member.member_id)
+        @rsvpd_members << found_or_new_member.update_member_from_meetup_api(new_member_id)
       end
+
+
     end
 
     respond_to do |format|
