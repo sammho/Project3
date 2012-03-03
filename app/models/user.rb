@@ -37,11 +37,7 @@ class User < ActiveRecord::Base
   def calculate_affinity(target_member)
 
     if affinity = UserAffinity.find_by_user_id_and_t_meetup_member_id(self.id, target_member.meetup_id)
-
       ## TODO: for now, let's always recalulate affinity scores (particularly to populate empties)
-      puts "Affinity exists for #{target_member.name} is #{affinity.affinity_score}\n"
-
-      
       ## TODO: Add additional condition to recalculate if update is > 1 month
     else
       affinity = UserAffinity.new
@@ -69,7 +65,6 @@ class User < ActiveRecord::Base
       normalized_common_topics_count = @common_topics.count
     end
 
-
     twitter_score = (affinity.twitter ? 10.0 : 0.0) 
     linkedin_score = (affinity.linked_in ? 20.0 : 0.0) 
     topics_score = 50.0 * (@common_topics.count.to_f / (self.topics.count + 1.0))
@@ -94,6 +89,10 @@ class User < ActiveRecord::Base
 
     affinity.save
 
+  end
+
+  def get_affinity(target_meetup_id)
+    return UserAffinity.find_by_user_id_and_t_meetup_member_id(self.id, target_meetup_id)
   end
 end
 
