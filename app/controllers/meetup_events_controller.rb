@@ -53,18 +53,22 @@ class MeetupEventsController < ApplicationController
     @meetup_rsvps.each do |meetup_member|
 
       # TODO: I should be able to change this to first_or_create!
-      if MeetupMember.find_by_meetup_id(meetup_member.member_id)
-        found_or_new_member =  MeetupMember.find_by_meetup_id(meetup_member.member_id)
-        @rsvpd_members <<  found_or_new_member
-
+      if newfound_member = MeetupMember.find_by_meetup_id(meetup_member.member_id)
+        @rsvpd_members <<  newfound_member
       else
-        # What if I create an empty member and then update it or call update function?
-        #@rsvpd_members << create_member_from_meetup_api(meetup_member.member_id)
-        new_member_id = meetup_member.member_id
-        found_or_new_member = MeetupMember.create!(:meetup_id => meetup_member.member_id)
-        @rsvpd_members << found_or_new_member.update_member_from_meetup_api(new_member_id)
+        newfound_member =  MeetupMember.create_new_from_meetup(meetup_member.member_id)
+        @rsvpd_members << newfound_member
       end
 
+      #puts "AR Errors? #{newfound_member.errors.inspect}\n"
+
+      #if newfound_member.unparsed_json.nil?
+      #  puts "ERROR1: #{newfound_member.inspect}\n"
+      #else
+      #  puts "SUCCESS_inspect #{newfound_member.inspect}\n"
+      #  puts "SUCCESS: #{newfound_member.meetup_id}\n"
+      #end
+      current_user.calculate_affinity(newfound_member)
 
     end
 

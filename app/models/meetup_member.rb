@@ -4,11 +4,8 @@ class MeetupMember < ActiveRecord::Base
   serialize :unparsed_json
 
   require 'iconv'
-
-  ## TODO: I may be able to do this as a Class Method self.xyz 
-  ## so that I don't have to create an empty object first
-
-  def update_member_from_meetup_api(meetup_member_id)
+  
+  def self.create_new_from_meetup(meetup_member_id)
     member = RMeetup::Client.fetch(:members, {:member_id => meetup_member_id}).first
 
     if member.other_services["linkedin"] && 
@@ -52,15 +49,17 @@ class MeetupMember < ActiveRecord::Base
 
     end
 
-    return MeetupMember.update(self.id, {:name => clean_name, 
+    return MeetupMember.create!(:name => clean_name, 
                                 #:meetup_id => member.member_id, 
+                                :meetup_id => meetup_member_id,
                                 #:unparsed_json => member.first.topics,
                                 :unparsed_json => @topics, 
                                 :image_url => member.photo_url,
                                 :linkedin_url => linked_in_url,
-                                :twitter =>   twitter })
+                                :twitter =>   twitter )
 
   end
+
 end
 
 # == Schema Information
