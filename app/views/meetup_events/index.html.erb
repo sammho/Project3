@@ -9,7 +9,9 @@
 
 <% @meetup_events.each do |meetup_event| %>
   <tr>
-    <td><%= link_to 'Show', meetup_event %></td>
+    <td>
+      <%= link_to 'Show', meetup_event %> 
+    </td>
     <td><%= link_to 'Edit', edit_meetup_event_path(meetup_event) %></td>
     <td><%= link_to 'Destroy', meetup_event, confirm: 'Are you sure?', method: :delete %></td>
   </tr>
@@ -20,6 +22,7 @@
   <tr>
     <th>Title</th>
     <th>Attendees</th>
+    <th>RSVP'd?</th
     <th>Date</th>
     <th>Meetup Page</th>
   </tr>
@@ -31,8 +34,13 @@
       ic = Iconv.new('UTF-8//IGNORE', 'UTF-8')
       clean_name = ic.iconv(result.name + ' ')[0..-2]
   %>
-    <td><%= link_to clean_name, "#{meetup_events_path}/#{result.id}" %></td>
+    <td><%= link_to clean_name, "#{meetup_events_path}/#{result.id}" %> </td>
     <td><%= result.rsvpcount%></td>
+    <td>
+      <% if result.myrsvp == "yes" %>
+        RSVP
+      <% end %>
+    </td>
     <td><%= result.time.strftime("%a %b %d") %></td>
     <td><%= link_to "Link", result.event_url %></td>
   </tr>
