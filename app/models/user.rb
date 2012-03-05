@@ -76,16 +76,16 @@ class User < ActiveRecord::Base
                               50.0 * (@common_topics.count / (self.topics.count + 1.0)) +
                               20.0 * (normalized_common_topics_count / 20.0)
 
-    puts "\nCalculating score for #{target_member.name}\n"
-    puts "Scores are Twitter #{twitter_score} LI: #{linkedin_score} topics #{topics_score} abs #{abs_topics_score}\n"
-    puts "Twitter is #{(affinity.twitter ? 10 : 0)}\n" 
-    puts "Linked in is #{(affinity.linked_in ? 20 : 0)}\n"
-    puts "Common topics count is #{@common_topics.count}\n"
-    puts "Self topics count is #{self.topics.count}\n"
-    puts "% common is #{50.0 * (@common_topics.count / (self.topics.count + 1.0))}\n"
-    puts "Abs % is #{20.0 * (normalized_common_topics_count / 20.0)}\n"
+    #puts "\nCalculating score for #{target_member.name}\n"
+    #puts "Scores are Twitter #{twitter_score} LI: #{linkedin_score} topics #{topics_score} abs #{abs_topics_score}\n"
+    #puts "Twitter is #{(affinity.twitter ? 10 : 0)}\n" 
+    #puts "Linked in is #{(affinity.linked_in ? 20 : 0)}\n"
+    #puts "Common topics count is #{@common_topics.count}\n"
+    #puts "Self topics count is #{self.topics.count}\n"
+    #puts "% common is #{50.0 * (@common_topics.count / (self.topics.count + 1.0))}\n"
+    #puts "Abs % is #{20.0 * (normalized_common_topics_count / 20.0)}\n"
 
-    puts "Affinity of #{target_member.name} is #{affinity.affinity_score}\n"
+    #puts "Affinity of #{target_member.name} is #{affinity.affinity_score}\n"
 
     affinity.save
 

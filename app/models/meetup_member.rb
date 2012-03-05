@@ -25,6 +25,11 @@ class MeetupMember < ActiveRecord::Base
 
     if member.other_services["twitter"]
       twitter = member.other_services["twitter"]["identifier"]
+      twitter_stripped = twitter[1..-1]
+      if TwitterMember.find_by_screenname(twitter_stripped)  # Strip leading @ sign
+      else
+        TwitterMember.create_from_screenname(twitter_stripped)
+      end
     else
       twitter = nil
     end
