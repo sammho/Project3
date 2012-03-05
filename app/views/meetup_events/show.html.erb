@@ -27,7 +27,7 @@
   <tr>
     <th></th>
     <th>Name</th>
-    <th>Twitter</th>
+    <th>Twitter (Following, Followed)</th>
     <th>LinkedIn</th>
     <th>Topics in Common</th>
     <th>Affinity Score</th>
@@ -38,7 +38,10 @@
     <td><%= image_tag(meetup_member.image_url, :border => 0, :width => "32") %></td>
     <td><%= link_to meetup_member.name, "http://www.meetup.com/members/#{meetup_member.meetup_id}" %></td>
     <% if meetup_member.twitter%>
-      <td><%= link_to meetup_member.twitter, "http://twitter.com/#{meetup_member.twitter}" %> </td>
+      <td>
+        <%= link_to meetup_member.twitter, "http://twitter.com/#{meetup_member.twitter}" %> 
+        <%= TwitterMember.find_by_screenname(meetup_member.twitter[1..-1]).followers.count %>
+      </td>
     <% else %>
       <td></td>
     <% end %>
