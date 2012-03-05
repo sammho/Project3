@@ -1,5 +1,5 @@
 class CreateTwitterMembers < ActiveRecord::Migration
-  def change
+  def up 
     create_table :twitter_members do |t|
       t.integer :user_id
       t.string :screenname
@@ -15,5 +15,10 @@ class CreateTwitterMembers < ActiveRecord::Migration
 
       t.timestamps
     end
+  end
+
+  def down
+    drop_table :twitter_members
+
   end
 end
