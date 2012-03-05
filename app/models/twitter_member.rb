@@ -9,16 +9,33 @@ class TwitterMember < ActiveRecord::Base
     twitter_user = Twitter.user(screenname)
     puts "Found user: #{screenname} with id #{twitter_user.id}\n"
 
-    return TwitterMember.create!(:screenname => screenname,
-                                 :twitter_id => twitter_user.id,
-                                 :followers => Twitter.follower_ids(screenname),
-                                 :following => Twitter.friend_ids(screenname),
-                                 #:categories => Twitter.suggestions(screenname),
-                                 :profile_image_url => twitter_user.profile_image_url,
-                                 :location => twitter_user.location,
-                                 :name => twitter_user.name,
-                                 :description => twitter_user.description,
-                                 :verified => twitter_user.verified)
+    if twitter_user.protected == "false"
+      return TwitterMember.create!(:screenname => screenname,
+                                   :twitter_id => twitter_user.id,
+                                   #:followers => Twitter.follower_ids(screenname), #unavailable if protected
+                                   #:following => Twitter.friend_ids(screenname), #unavailable
+                                   #:categories => Twitter.suggestions(screenname),
+                                   :profile_image_url => twitter_user.profile_image_url,
+                                   :location => twitter_user.location,
+                                   :name => twitter_user.name,
+                                   :description => twitter_user.description,
+                                   :verified => twitter_user.verified)
+
+    else
+      return TwitterMember.create!(:screenname => screenname,
+                                   :twitter_id => twitter_user.id,
+                                   :followers => Twitter.follower_ids(screenname),
+                                   :following => Twitter.friend_ids(screenname),
+                                   :followers_count => twitter_user.followers_count,
+                                   :following_count => twitter_user.friends_count,
+                                   #:categories => Twitter.suggestions(screenname),
+                                   :profile_image_url => twitter_user.profile_image_url,
+                                   :location => twitter_user.location,
+                                   :name => twitter_user.name,
+                                   :description => twitter_user.description,
+                                   :verified => twitter_user.verified)
+    end
+
 
   end
 end
@@ -41,5 +58,7 @@ end
 #  verified          :boolean(1)
 #  created_at        :datetime
 #  updated_at        :datetime
+#  followers_count   :integer(4)
+#  following_count   :integer(4)
 #
 

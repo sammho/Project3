@@ -40,7 +40,7 @@
     <% if meetup_member.twitter%>
       <td>
         <%= link_to meetup_member.twitter, "http://twitter.com/#{meetup_member.twitter}" %> 
-        <%= TwitterMember.find_by_screenname(meetup_member.twitter[1..-1]).followers.count %>
+        <%= TwitterMember.find_by_screenname(meetup_member.twitter[1..-1]).followers_count %>
       </td>
     <% else %>
       <td></td>

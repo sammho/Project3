@@ -22,5 +22,7 @@ end
 #  verified          :boolean(1)
 #  created_at        :datetime
 #  updated_at        :datetime
+#  followers_count   :integer(4)
+#  following_count   :integer(4)
 #
 
