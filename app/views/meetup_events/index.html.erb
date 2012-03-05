@@ -21,10 +21,10 @@
 <table>
   <tr>
     <th>Title</th>
-    <th>Attendees</th>
-    <th>RSVP'd?</th
+    <th>#</th>
+    <th>RSVP'd?</th>
     <th>Date</th>
-    <th>Meetup Page</th>
+    <th></th>
   </tr>
 
 <% require 'iconv' %>
@@ -47,7 +47,6 @@
 <% end %>
 </table>
 
-<%= @results %>
 <br />
 
 <%= link_to 'New Meetup event', new_meetup_event_path %>

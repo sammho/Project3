@@ -72,6 +72,8 @@ class MeetupEventsController < ApplicationController
 
     end
 
+    @sorted_members = @rsvpd_members.sort_by { |rsvpd_member| -current_user.get_affinity(rsvpd_member.meetup_id).affinity_score }
+
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @meetup_event }
