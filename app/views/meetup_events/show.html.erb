@@ -31,7 +31,6 @@
     <th>LinkedIn</th>
     <th>Topics in Common</th>
     <th>Affinity Score</th>
-    <th></th>
   </tr>
 
 <% @sorted_members.each do |meetup_member| %>
@@ -50,7 +49,6 @@
     <% end %>
     <td><%= current_user.topics_in_common(meetup_member).count %></td>
     <td><%= current_user.get_affinity(meetup_member.meetup_id).affinity_score %>  </td>
-    <td><%= meetup_member.unparsed_json %></td>
   </tr>
 <% end %>
 </table>
