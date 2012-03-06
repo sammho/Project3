@@ -53,12 +53,22 @@ class MeetupEventsController < ApplicationController
     @meetup_rsvps.each do |meetup_member|
 
       # TODO: I should be able to change this to first_or_create!
-      if newfound_member = MeetupMember.find_by_meetup_id(meetup_member.member_id)
+      #
+      # Including ability to refresh database if necessary
+      meetup_reset_flag = 1
+
+      if meetup_reset_flag 
+        newfound_member =  MeetupMember.create_new_from_meetup(meetup_member.member_id)
+        @rsvpd_members << newfound_member
+      elsif newfound_member = MeetupMember.find_by_meetup_id(meetup_member.member_id)
         @rsvpd_members <<  newfound_member
       else
         newfound_member =  MeetupMember.create_new_from_meetup(meetup_member.member_id)
         @rsvpd_members << newfound_member
       end
+      
+        
+
 
       #puts "AR Errors? #{newfound_member.errors.inspect}\n"
 

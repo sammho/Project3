@@ -26,7 +26,13 @@ class MeetupMember < ActiveRecord::Base
     if member.other_services["twitter"]
       twitter = member.other_services["twitter"]["identifier"]
       twitter_stripped = twitter[1..-1]
-      if TwitterMember.find_by_screenname(twitter_stripped)  
+
+      # The problem with this reset flag is it requires Meetup member to be created again
+      twitter_reset_flag = 1
+      if twitter_reset_flag && (member_to_delete = TwitterMember.find_by_screenname(twitter_stripped))
+        member_to_delete.destroy
+        TwitterMember.create_from_screenname(twitter_stripped)
+      elsif TwitterMember.find_by_screenname(twitter_stripped)  
       else
         TwitterMember.create_from_screenname(twitter_stripped)
       end
@@ -54,14 +60,27 @@ class MeetupMember < ActiveRecord::Base
 
     end
 
-    return MeetupMember.create!(:name => clean_name, 
-                                #:meetup_id => member.member_id, 
-                                :meetup_id => meetup_member_id,
-                                #:unparsed_json => member.first.topics,
-                                :unparsed_json => @topics, 
-                                :image_url => member.photo_url,
-                                :linkedin_url => linked_in_url,
-                                :twitter =>   twitter )
+    if update_member = MeetupMember.find_by_meetup_id(meetup_member_id)
+
+      return MeetupMember.update(update_member.id, {:name => clean_name, 
+                                  #:meetup_id => member.member_id, 
+                                  :meetup_id => meetup_member_id,
+                                  #:unparsed_json => member.first.topics,
+                                  :unparsed_json => @topics, 
+                                  :image_url => member.photo_url,
+                                  :linkedin_url => linked_in_url,
+                                  :twitter =>   twitter} )
+
+    else
+      return MeetupMember.create!(:name => clean_name, 
+                                  #:meetup_id => member.member_id, 
+                                  :meetup_id => meetup_member_id,
+                                  #:unparsed_json => member.first.topics,
+                                  :unparsed_json => @topics, 
+                                  :image_url => member.photo_url,
+                                  :linkedin_url => linked_in_url,
+                                  :twitter =>   twitter )
+    end
 
   end
 
