@@ -22,11 +22,10 @@ class TwitterMember < ActiveRecord::Base
 
     puts Twitter.user(screenname).inspect
     twitter_user = Twitter.user(screenname)
-    result_1 = (twitter_user.protected == "true")
-    puts "Found user: #{screenname} with id #{twitter_user.id} and is protected? #{twitter_user.protected} #{result_1}\n"
+    puts "Found user: #{screenname} with id #{twitter_user.id}\n"
 
   
-    if twitter_user.protected.to_s == "true"
+    if twitter_user.protected == true
       return TwitterMember.create!(:screenname => screenname,
                                    :twitter_id => twitter_user.id,
                                    #:followers => Twitter.follower_ids(screenname), #unavailable if protected

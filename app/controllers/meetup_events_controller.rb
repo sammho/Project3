@@ -55,7 +55,8 @@ class MeetupEventsController < ApplicationController
       # TODO: I should be able to change this to first_or_create!
       #
       # Including ability to refresh database if necessary
-      meetup_reset_flag = 1
+      # TODO: Get rid of this meetup flag
+      meetup_reset_flag = 0
 
       if meetup_reset_flag 
         newfound_member =  MeetupMember.create_new_from_meetup(meetup_member.member_id)
