@@ -5,6 +5,7 @@ gem 'rMeetup'
 gem 'json'
 
 gem 'twitter'
+gem 'awesome_print'
 
 # Added for heroku issue
 gem 'bundler', '1.0.21'
