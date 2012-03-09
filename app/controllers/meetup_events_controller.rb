@@ -56,7 +56,7 @@ class MeetupEventsController < ApplicationController
       #
       # Including ability to refresh database if necessary
       # TODO: Get rid of this meetup flag
-      meetup_reset_flag = 0
+      meetup_reset_flag = false # must be true or false (not 0)
 
       if meetup_reset_flag 
         newfound_member =  MeetupMember.create_new_from_meetup(meetup_member.member_id)

@@ -48,7 +48,8 @@
         <%= meetup_member.twitter_member.followers_count %>
       </td>
       <td>
-        <%= meetup_member.twitter_member %>
+        <%= meetup_member.twitter_member.name %>
+        <%= current_user.get_twitter_topics_in_common(meetup_member.twitter_member.screenname) %>
       </td>
     <% else %>
       <td></td>

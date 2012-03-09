@@ -94,6 +94,24 @@ class User < ActiveRecord::Base
   def get_affinity(target_meetup_id)
     return UserAffinity.find_by_user_id_and_t_meetup_member_id(self.id, target_meetup_id)
   end
+
+  def get_twitter_topics_in_common(target_screenname)
+    # First need to make sure this user has a twitter profile to compare
+    if self.meetup_member.twitter_member
+      return 999
+
+    else
+      return 0
+    end
+
+  end
+
+  # TODO: Would this somehow be automatically defined by defining the relationship?
+  # Not sure if it's possible since neither of them are exclusive relationships
+  # TODO: Create a test here for a user w/o a meetup account (or is this req'd?)
+  def meetup_member
+    return MeetupMember.find_by_user_id(self.id)
+  end
 end
 
 # == Schema Information
