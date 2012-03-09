@@ -85,6 +85,10 @@ class MeetupMember < ActiveRecord::Base
 
   end
 
+  def twitter_member
+    TwitterMember.find_by_screenname(self.twitter[1..-1])
+  end
+
 end
 
 # == Schema Information
