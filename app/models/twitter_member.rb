@@ -56,23 +56,36 @@ class TwitterMember < ActiveRecord::Base
   end
 
   # Return the followers (array) that 2 users have in common
-  # user_b must be the screenname
-  def twitter_followers_in_common(user_b, options={})
-    # create arrays for boths users of all their ids to parse cursor object
-    # loop through twitter_userss followers, check if user_b.contains follower_id
-    # Should we just do this at the beginning when we create a new member and store it as such?
-    # Database implcation issues at scale?
+  def twitter_followers_in_common(user_b_screenname, options={})
     user_a_followers = self.followers.collection
     cursor = self.followers.next
     while cursor != 0
-      # keep pulling the followers into an array
-      # what about for the case when the user has less than 5000, let's initialize with the first page
-      more_followers = Twitter.followers(self.screenname, :curser => cursor)
-      @user_a_followers << more_followers.collection
+      more_followers = Twitter.follower_ids(self.screenname, :cursor => cursor)
+      user_a_followers.concat(more_followers.collection)
       cursor = more_followers.next
+      loop_limit += 1
+      if loop_limit > 100 then
+        break 
+      end
     end
 
-    return user_a_followers
+    user_b = TwitterMember.create_from_screenname(user_b_screenname)
+    user_b_followers = user_b.followers.collection
+
+    cursor = user_b.followers.next
+
+    loop_limit = 0 # For testing, make sure you exit while loop after 10 iterations
+    while cursor != 0
+      more_followers = Twitter.follower_ids(user_b.screenname, :cursor => cursor)
+      user_b_followers.concat(more_followers.collection)
+      cursor = more_followers.next
+      loop_limit += 1
+      if loop_limit > 100 then
+        break 
+      end
+    end
+
+    return (user_b_followers & user_a_followers)
 
   end
 end
