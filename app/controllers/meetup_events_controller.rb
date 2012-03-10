@@ -10,7 +10,6 @@ class MeetupEventsController < ApplicationController
 
     @results = RMeetup::Client.fetch(:events,{:member_id => current_user.meetup_member_id})
 
-
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @meetup_events }
@@ -30,18 +29,9 @@ class MeetupEventsController < ApplicationController
     @rsvpd_members = []
 
     @meetup_rsvps.each do |meetup_member|
-
-      # TODO: I should be able to change this to first_or_create!
-
-      if newfound_member = MeetupMember.find_by_meetup_id(meetup_member.member_id)
-        @rsvpd_members <<  newfound_member
-      else
-        newfound_member =  MeetupMember.create_new_from_meetup(meetup_member.member_id)
-        @rsvpd_members << newfound_member
-      end
-      
+      newfound_member = MeetupMember.retrieve_by_member_id(meetup_member.member_id)
+      @rsvpd_members << newfound_member
       current_user.calculate_affinity(newfound_member)
-
     end
 
     @sorted_members = @rsvpd_members.sort_by { |rsvpd_member| -current_user.get_affinity(rsvpd_member.meetup_id).affinity_score }
