@@ -8,29 +8,8 @@ class MeetupEventsController < ApplicationController
   def index
     @meetup_events = MeetupEvent.all
 
-    #@results = RMeetup::Client.fetch(:members,{:member_id => "6442685"})
-   # @results = RMeetup::Client.fetch(:events,{:member_id => "6442685", :text_format => "plain"})
     @results = RMeetup::Client.fetch(:events,{:member_id => current_user.meetup_member_id})
 
-   # test_result = @results.first
-   # puts "***************\n"
-   # puts "Is object frozen? #{test_result.frozen?}"
-   # puts test_result.frozen?
-   # puts "#{test_result.inspect}"
-   # puts "Name is #{test_result.name}"
-   # test_result.name = "test"
-   # puts "New name is #{test_result.name}"
-
-   # @results.map do |result|
-   #   ic = Iconv.new('UTF-8//IGNORE', 'UTF-8')
-   #   clean_name = ic.iconv(result.name + ' ')[0..-2]
-   #   result.name = clean_name
-   #   if clean_name != result.name 
-   #     puts "Name:    #{result.name} \ncleaned: #{clean_name}"
-   #     puts "#{result.to_yaml}"
-   #   end
-
-   # end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -53,32 +32,14 @@ class MeetupEventsController < ApplicationController
     @meetup_rsvps.each do |meetup_member|
 
       # TODO: I should be able to change this to first_or_create!
-      #
-      # Including ability to refresh database if necessary
-      # TODO: Get rid of this meetup flag
-      meetup_reset_flag = false # must be true or false (not 0)
 
-      if meetup_reset_flag 
-        newfound_member =  MeetupMember.create_new_from_meetup(meetup_member.member_id)
-        @rsvpd_members << newfound_member
-      elsif newfound_member = MeetupMember.find_by_meetup_id(meetup_member.member_id)
+      if newfound_member = MeetupMember.find_by_meetup_id(meetup_member.member_id)
         @rsvpd_members <<  newfound_member
       else
         newfound_member =  MeetupMember.create_new_from_meetup(meetup_member.member_id)
         @rsvpd_members << newfound_member
       end
       
-        
-
-
-      #puts "AR Errors? #{newfound_member.errors.inspect}\n"
-
-      #if newfound_member.unparsed_json.nil?
-      #  puts "ERROR1: #{newfound_member.inspect}\n"
-      #else
-      #  puts "SUCCESS_inspect #{newfound_member.inspect}\n"
-      #  puts "SUCCESS: #{newfound_member.meetup_id}\n"
-      #end
       current_user.calculate_affinity(newfound_member)
 
     end

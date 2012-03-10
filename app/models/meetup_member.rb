@@ -27,13 +27,7 @@ class MeetupMember < ActiveRecord::Base
       twitter = member.other_services["twitter"]["identifier"]
       twitter_stripped = twitter[1..-1]
 
-      # The problem with this reset flag is it requires Meetup member to be created again
-      # TODO: Get rid of this twitter reset flag
-      twitter_reset_flag = false # must be true or false, not 0
-      if twitter_reset_flag && (member_to_delete = TwitterMember.find_by_screenname(twitter_stripped))
-        member_to_delete.destroy
-        TwitterMember.create_from_screenname(twitter_stripped)
-      elsif TwitterMember.find_by_screenname(twitter_stripped)  
+      if TwitterMember.find_by_screenname(twitter_stripped)  
       else
         TwitterMember.create_from_screenname(twitter_stripped)
       end
