@@ -88,37 +88,8 @@ class TwitterMember < ActiveRecord::Base
   end
 
   # Return the followers (array) that 2 users have in common
-  def twitter_followers_in_common(user_b_screenname, options={})
-    user_a_followers = self.followers.collection
-    cursor = self.followers.next
-    while cursor != 0
-      more_followers = Twitter.follower_ids(self.screenname, :cursor => cursor)
-      user_a_followers.concat(more_followers.collection)
-      cursor = more_followers.next
-      loop_limit += 1
-      if loop_limit > 100 then
-        break 
-      end
-    end
-
-    user_b = TwitterMember.create_from_screenname(user_b_screenname)
-    user_b_followers = user_b.followers.collection
-
-    cursor = user_b.followers.next
-
-    loop_limit = 0 # For testing, make sure you exit while loop after 10 iterations
-    while cursor != 0
-      more_followers = Twitter.follower_ids(user_b.screenname, :cursor => cursor)
-      user_b_followers.concat(more_followers.collection)
-      cursor = more_followers.next
-      loop_limit += 1
-      if loop_limit > 100 then
-        break 
-      end
-    end
-
-    return (user_b_followers & user_a_followers)
-
+  def twitter_followers_in_common(user_b, options={})
+    return (user_b.followers & self.followers)
   end
 end
 
