@@ -20,11 +20,8 @@ class TwitterMember < ActiveRecord::Base
       return
     end
 
-    puts Twitter.user(screenname).inspect
     twitter_user = Twitter.user(screenname)
-    puts "Found user: #{screenname} with id #{twitter_user.id}\n"
 
-  
     if twitter_user.protected == true
       return TwitterMember.create!(:screenname => screenname,
                                    :twitter_id => twitter_user.id,
@@ -36,12 +33,47 @@ class TwitterMember < ActiveRecord::Base
                                    :name => twitter_user.name,
                                    :description => twitter_user.description,
                                    :verified => twitter_user.verified)
-
     else
+      twitter_user_followers_c = Twitter.follower_ids(screenname)
+      twitter_followers = twitter_user_followers_c.collection
+      cursor = twitter_user_followers_c.next
+      
+      loop_limit = 0
+      while cursor != 0
+        more_followers = Twitter.follower_ids(screenname, :cursor => cursor)
+        twitter_followers.concat(more_followers.collection)
+        cursor = more_followers.next
+
+        # to protect Twitter API limit
+        loop_limit += 1
+        if loop_limit > 50 then
+          break 
+        end
+      end
+
+      twitter_user_following_c = Twitter.friend_ids(screenname)
+      twitter_following = twitter_user_following_c.collection
+      cursor = twitter_user_following_c.next
+      
+      loop_limit = 0
+      while cursor != 0
+        more_following = Twitter.friend_ids(screenname, :cursor => cursor)
+        twitter_following.concat(more_following.collection)
+        cursor = more_following.next
+
+        # to protect Twitter API limit
+        loop_limit += 1
+        if loop_limit > 50 then
+          break 
+        end
+      end
+
       return TwitterMember.create!(:screenname => screenname,
                                    :twitter_id => twitter_user.id,
-                                   :followers => Twitter.follower_ids(screenname),
-                                   :following => Twitter.friend_ids(screenname),
+                                   #:followers => Twitter.follower_ids(screenname),
+                                   #:following => Twitter.friend_ids(screenname),
+                                   :followers => twitter_followers,
+                                   :following => twitter_following,
                                    :followers_count => twitter_user.followers_count,
                                    :following_count => twitter_user.friends_count,
                                    #:categories => Twitter.suggestions(screenname),
