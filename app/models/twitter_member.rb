@@ -91,6 +91,10 @@ class TwitterMember < ActiveRecord::Base
   def twitter_followers_in_common(user_b, options={})
     return (user_b.followers & self.followers)
   end
+
+  def twitter_following_in_common(user_b, options={})
+    return (user_b.following & self.following)
+  end
 end
 
 # == Schema Information

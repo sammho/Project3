@@ -112,6 +112,11 @@ class User < ActiveRecord::Base
   def meetup_member
     return MeetupMember.find_by_user_id(self.id)
   end
+
+  def twitter_member
+    return TwitterMember.find_by_user_id(self.id)
+
+  end
 end
 
 # == Schema Information

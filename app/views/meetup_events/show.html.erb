@@ -29,7 +29,7 @@
     <th>Name</th>
     <th>Twitter</th> 
     <th>(Following, Followed)</th>
-    <th>Followers in common</th>
+    <th>Following in common</th>
     <th>LinkedIn</th>
     <th>Topics in Common</th>
     <th>Affinity Score</th>
@@ -48,8 +48,7 @@
         <%= meetup_member.twitter_member.followers_count %>
       </td>
       <td>
-        <%= meetup_member.twitter_member.name %>
-        <%= current_user.get_twitter_topics_in_common(meetup_member.twitter_member.screenname) %>
+        <%= current_user.twitter_member.twitter_following_in_common(meetup_member.twitter_member).count %>
       </td>
     <% else %>
       <td></td>

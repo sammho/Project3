@@ -86,7 +86,16 @@ class MeetupMember < ActiveRecord::Base
   end
 
   def twitter_member
-    TwitterMember.find_by_screenname(self.twitter[1..-1])
+    if found = TwitterMember.find_by_screenname(self.twitter[1..-1])
+      return found
+
+    ## Here we create a twitter member if a screenname is found but no corresponding twitter record
+    ## TODO: Is this behavior ok?  Should this be able to happen?
+    elsif self.twitter
+      TwitterMember.create_from_screenname(self.twitter[1..-1])
+    else
+      return
+    end
   end
 
 end
