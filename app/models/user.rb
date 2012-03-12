@@ -57,8 +57,8 @@ class User < ActiveRecord::Base
     target_member.unparsed_json.count 
 
     ## Affinity score calculation
-    ## .1 * Twitter + .2 * LinkedIn + .5 * % in common + .2 * (# in common - max 20)
-    ## .1 * Twitter + .2 * LinkedIn + .25 * % in common + .1 * (# in common - max 20)
+    ## .1 * Twitter + .2 * LinkedIn + .25 * % topics in common + .1 * (# topics in common - max 20)
+    ## + .25 * % twitter following in common + .10 * abs twitter following in common
 
     if @common_topics.count >= 20
       normalized_common_topics_count = 20

@@ -37,7 +37,7 @@
 
 <% @sorted_members.each do |meetup_member| %>
   <tr>
-    <td><%= image_tag(meetup_member.image_url, :border => 0, :width => "32") %></td>
+    <td><%= link_to image_tag(meetup_member.image_url, :border => 0, :width => "32"), "http://www.meetup.com/members/#{meetup_member.meetup_id}"  %></td>
     <td><%= link_to meetup_member.name, "http://www.meetup.com/members/#{meetup_member.meetup_id}" %></td>
     <% if meetup_member.twitter%>
       <td>
