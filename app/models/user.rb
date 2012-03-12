@@ -58,6 +58,7 @@ class User < ActiveRecord::Base
 
     ## Affinity score calculation
     ## .1 * Twitter + .2 * LinkedIn + .5 * % in common + .2 * (# in common - max 20)
+    ## .1 * Twitter + .2 * LinkedIn + .25 * % in common + .1 * (# in common - max 20)
 
     if @common_topics.count >= 20
       normalized_common_topics_count = 20
@@ -66,15 +67,28 @@ class User < ActiveRecord::Base
     end
 
     twitter_score = (affinity.twitter ? 10.0 : 0.0) 
-    linkedin_score = (affinity.linked_in ? 20.0 : 0.0) 
-    topics_score = 50.0 * (@common_topics.count.to_f / (self.topics.count + 1.0))
-    abs_topics_score = 20.0 * (normalized_common_topics_count.to_f / 20.0)
+    if affinity.twitter
+      twitter_following_score = 10.0 * 
+        (self.twitter_member.twitter_following_in_common(target_member.twitter_member).count / 
+        (self.twitter_member.following_count + 1))
 
-    #affinity.affinity_score = (affinity.twitter ? 10 : 0) +
-    affinity.affinity_score = (affinity.twitter ? 10.0 : 0.0) +
-                              (affinity.linked_in ? 20.0 : 0.0) +
-                              50.0 * (@common_topics.count / (self.topics.count + 1.0)) +
-                              20.0 * (normalized_common_topics_count / 20.0)
+      normalized_twitter_score = 
+        self.twitter_member.twitter_following_in_common(target_member.twitter_member).count >= 50 ? 
+          50 :
+          self.twitter_member.twitter_following_in_common(target_member.twitter_member).count
+
+      twitter_following_score_abs = 25.0 * 
+        (normalized_twitter_score / 50.0) 
+    else
+      twitter_following_score = 0.0
+      twitter_following_score_abs = 0.0
+    end
+    linkedin_score = (affinity.linked_in ? 20.0 : 0.0) 
+    topics_score = 25.0 * (@common_topics.count.to_f / (self.topics.count + 1.0))
+    abs_topics_score = 10.0 * (normalized_common_topics_count.to_f / 20.0)
+
+    affinity.affinity_score = twitter_score + twitter_following_score + twitter_following_score_abs + 
+                              linkedin_score + topics_score + abs_topics_score
 
     #puts "\nCalculating score for #{target_member.name}\n"
     #puts "Scores are Twitter #{twitter_score} LI: #{linkedin_score} topics #{topics_score} abs #{abs_topics_score}\n"

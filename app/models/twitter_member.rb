@@ -44,9 +44,9 @@ class TwitterMember < ActiveRecord::Base
         twitter_followers.concat(more_followers.collection)
         cursor = more_followers.next
 
-        # to protect Twitter API limit
+        # to protect Twitter API limit, will restrict to 50K followers
         loop_limit += 1
-        if loop_limit > 50 then
+        if loop_limit > 10 then
           break 
         end
       end
@@ -61,9 +61,9 @@ class TwitterMember < ActiveRecord::Base
         twitter_following.concat(more_following.collection)
         cursor = more_following.next
 
-        # to protect Twitter API limit
+        # to protect Twitter API limit, will restrict to 50K followers
         loop_limit += 1
-        if loop_limit > 50 then
+        if loop_limit > 10 then
           break 
         end
       end
