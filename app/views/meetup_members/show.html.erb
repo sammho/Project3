@@ -27,7 +27,7 @@
      [<%= current_user.topics_in_common(@meetup_member).count %>]
   </td> </tr>
   <tr colspan="2"> <td>
-    <%= print_meetup_topics(get_rand_meetup_topics(current_user.topics_in_common(@meetup_member), 5)) %> 
+    <%= print_meetup_topics(get_rand_meetup_topics(current_user.topics_in_common(@meetup_member), 10)) %> 
   </td></tr>
 
   <% if @meetup_member.twitter %>

@@ -7,12 +7,16 @@ module ApplicationHelper
     topic_objects = [] 
     total = topics_id_array.count
 
+    rand_topics = topics_id_array.sort_by {rand}
+
     while i < num_topics 
-      topic = MeetupTopic.find_by_meetup_id(topics_id_array[i])
+      topic = MeetupTopic.find_by_meetup_id(rand_topics[i])
       topic_objects << topic
       i += 1
       break if i >= total
     end
+
+    ## TODO: Add a more list if there are more, allow users to see all topics
 
     return topic_objects
   end

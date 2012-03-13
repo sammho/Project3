@@ -4,6 +4,17 @@ class TwitterMember < ActiveRecord::Base
   serialize :categories
   validates(:twitter_id, :presence => true)
 
+  def self.find_or_create_from_twitter_id(t_id)
+    if found_user = Twitter.find_by_twitter_id(t_id)
+      return found_user
+    else
+      
+
+    end
+
+  end
+
+  ## This creation method is primarily used from a Meetup lookup
   def self.create_from_screenname(screenname)
 
     # To be safe, I should always clean up screennames here
@@ -21,9 +32,12 @@ class TwitterMember < ActiveRecord::Base
     end
 
     twitter_user = Twitter.user(screenname)
+    TwitterMember.create_from_twitter_object(twitter_user)
+  end
 
+  def self.create_from_twitter_object(twitter_user)
     if twitter_user.protected == true
-      return TwitterMember.create!(:screenname => screenname,
+      return TwitterMember.create!(:screenname => twitter_user.screen_name,
                                    :twitter_id => twitter_user.id,
                                    #:followers => Twitter.follower_ids(screenname), #unavailable if protected
                                    #:following => Twitter.friend_ids(screenname), #unavailable
@@ -34,13 +48,13 @@ class TwitterMember < ActiveRecord::Base
                                    :description => twitter_user.description,
                                    :verified => twitter_user.verified)
     else
-      twitter_user_followers_c = Twitter.follower_ids(screenname)
+      twitter_user_followers_c = Twitter.follower_ids(twitter_user.screen_name)
       twitter_followers = twitter_user_followers_c.collection
       cursor = twitter_user_followers_c.next
       
       loop_limit = 0
       while cursor != 0
-        more_followers = Twitter.follower_ids(screenname, :cursor => cursor)
+        more_followers = Twitter.follower_ids(twitter_user.screen_name, :cursor => cursor)
         twitter_followers.concat(more_followers.collection)
         cursor = more_followers.next
 
@@ -51,13 +65,13 @@ class TwitterMember < ActiveRecord::Base
         end
       end
 
-      twitter_user_following_c = Twitter.friend_ids(screenname)
+      twitter_user_following_c = Twitter.friend_ids(twitter_user.screen_name)
       twitter_following = twitter_user_following_c.collection
       cursor = twitter_user_following_c.next
       
       loop_limit = 0
       while cursor != 0
-        more_following = Twitter.friend_ids(screenname, :cursor => cursor)
+        more_following = Twitter.friend_ids(twitter_user.screen_name, :cursor => cursor)
         twitter_following.concat(more_following.collection)
         cursor = more_following.next
 
@@ -68,7 +82,7 @@ class TwitterMember < ActiveRecord::Base
         end
       end
 
-      return TwitterMember.create!(:screenname => screenname,
+      return TwitterMember.create!(:screenname => twitter_user.screen_name,
                                    :twitter_id => twitter_user.id,
                                    #:followers => Twitter.follower_ids(screenname),
                                    #:following => Twitter.friend_ids(screenname),
@@ -83,8 +97,6 @@ class TwitterMember < ActiveRecord::Base
                                    :description => twitter_user.description,
                                    :verified => twitter_user.verified)
     end
-
-
   end
 
   # Return the followers (array) that 2 users have in common
