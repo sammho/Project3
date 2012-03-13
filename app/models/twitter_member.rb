@@ -5,10 +5,14 @@ class TwitterMember < ActiveRecord::Base
   validates(:twitter_id, :presence => true)
 
   def self.find_or_create_from_twitter_id(t_id)
-    if found_user = Twitter.find_by_twitter_id(t_id)
+    if found_user = TwitterMember.find_by_twitter_id(t_id)
       return found_user
     else
-      
+      # TODO: this method may be somewhat deprecated, better to specify the user_id field directly
+      # since this could get confused with users who are just a string of numbers.
+      # We're assuming here the API logic is to look for a string vs an integer
+      twitter_user = Twitter.user(t_id) 
+      return TwitterMember.create_from_twitter_object(twitter_user)
 
     end
 
