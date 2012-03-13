@@ -22,10 +22,11 @@ module ApplicationHelper
     topic_string = ""
 
     topics.each do |topic|
-      topic_string << "#{link_to(topic.name, topic.urlkey)} "
+      #topic_string << "#{link_to(topic.name, topic.urlkey)} "
+      topic_string << "#{topic.name}, "
     end
     
-    return raw(topic_string)
+    return raw(topic_string.chop.chop)
 
   end
 
