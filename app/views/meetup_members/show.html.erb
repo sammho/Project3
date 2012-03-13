@@ -36,7 +36,8 @@
      [<%= current_user.twitter_member.twitter_following_in_common(@meetup_member.twitter_member).count  %>]
     </td></tr>
     <tr colspan="2"> <td>
-      <%= current_user.twitter_member.twitter_following_in_common(@meetup_member.twitter_member) %> 
+      <%= print_twitter_followers(get_rand_followers(
+            current_user.twitter_member.twitter_following_in_common(@meetup_member.twitter_member), 10)) %> 
     </td></tr>
   <% else %>
   <% end %>

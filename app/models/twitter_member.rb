@@ -86,6 +86,8 @@ class TwitterMember < ActiveRecord::Base
         end
       end
 
+      puts "Almost there #{twitter_user.screen_name}\n"
+
       return TwitterMember.create!(:screenname => twitter_user.screen_name,
                                    :twitter_id => twitter_user.id,
                                    #:followers => Twitter.follower_ids(screenname),

@@ -53,4 +53,19 @@ module ApplicationHelper
     return follower_objects
   end
 
+  ## Given an array of Twitter Followers, pretty print with screennames and pictures with urls 
+  def print_twitter_followers(followers)
+    followers_string = ""
+
+    followers.each do |follower|
+      #follower_string << "#{link_to(follower.name, follower.urlkey)} "
+      follower_link = link_to image_tag(follower.profile_image_url, :width => "32"), 
+                      "http://twitter.com/#{follower.screenname}"
+      followers_string << follower_link
+    end
+    
+    return raw(followers_string)
+
+  end
+
 end
