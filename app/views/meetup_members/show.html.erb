@@ -23,14 +23,16 @@
     </td>
   </tr>
   <tr colspan="2"> <td>
-    Topics in Common 
+    <b>Meetup Topics in Common </b>
      [<%= current_user.topics_in_common(@meetup_member).count %>]
   </td> </tr>
-  <tr colspan="2"> <td><%= current_user.topics_in_common(@meetup_member) %> </td></tr>
+  <tr colspan="2"> <td>
+    <%= print_meetup_topics(get_rand_meetup_topics(current_user.topics_in_common(@meetup_member), 5)) %> 
+  </td></tr>
 
   <% if @meetup_member.twitter %>
     <tr colspan="2"> <td>
-      Following in Common 
+     <b> Following in Common </b>
      [<%= current_user.twitter_member.twitter_following_in_common(@meetup_member.twitter_member).count  %>]
     </td></tr>
     <tr colspan="2"> <td>
