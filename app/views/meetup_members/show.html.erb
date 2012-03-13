@@ -1,18 +1,17 @@
 <p id="notice"><%= notice %></p>
 
-<table>
+<table border = '1'>
   <tr>
     <td roswspan="2">
       <%= link_to image_tag(@meetup_member.image_url, :border => 0, :width => "128"), 
         "http://www.meetup.com/members/#{@meetup_member.meetup_id}" %>
-    </td>
-    <td>
       <b>Name:</b>
       <%= @meetup_member.name %>
+      <br/>
+      Title:
     </td>
   </tr>
   <tr>
-    <td>Title:</td>
   </tr>
   <tr>
     <td>
@@ -23,7 +22,29 @@
         "http://twitter.com/#{@meetup_member.twitter}" %> 
     </td>
   </tr>
+  <tr colspan="2"> <td>
+    Topics in Common 
+     [<%= current_user.topics_in_common(@meetup_member).count %>]
+  </td> </tr>
+  <tr colspan="2"> <td><%= current_user.topics_in_common(@meetup_member) %> </td></tr>
+
+  <% if @meetup_member.twitter %>
+    <tr colspan="2"> <td>
+      Following in Common 
+     [<%= current_user.twitter_member.twitter_following_in_common(@meetup_member.twitter_member).count  %>]
+    </td></tr>
+    <tr colspan="2"> <td>
+      <%= current_user.twitter_member.twitter_following_in_common(@meetup_member.twitter_member) %> 
+    </td></tr>
+  <% else %>
+  <% end %>
 </table>
+
+
 
 <%= link_to 'Edit', edit_meetup_member_path(@meetup_member) %> |
 <%= link_to 'Back', meetup_members_path %>
+
+
+<br />
+<br />
