@@ -2,7 +2,6 @@ module ApplicationHelper
 
   ## Given an array of meetup of topics, return a randomized subset up to the number specified
   def get_rand_meetup_topics(topics_id_array, num_topics)
-    ## The easy way is to return the first number up to index
     i = 0
     topic_objects = [] 
     total = topics_id_array.count
@@ -32,6 +31,26 @@ module ApplicationHelper
     
     return raw(topic_string.chop.chop)
 
+  end
+
+  def get_rand_followers(followers_id_array, num_followers)
+    i = 0
+    follower_objects = [] 
+    total = followers_id_array.count
+
+    rand_followers = followers_id_array.sort_by {rand}
+
+    while i < num_followers && i < 20 ## This sets the max amount at 20 
+      follower = TwitterMember.find_or_create_from_twitter_id(rand_followers[i])
+
+      follower_objects << follower
+      i += 1
+      break if i >= total
+    end
+
+    ## TODO: Add a more list if there are more, allow users to see all followers
+
+    return follower_objects
   end
 
 end
