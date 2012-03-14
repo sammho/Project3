@@ -7,8 +7,15 @@
         "http://www.meetup.com/members/#{@meetup_member.meetup_id}" %>
       <b>Name:</b>
       <%= @meetup_member.name %>
+      <b>Score: </b>
+      <%= current_user.get_affinity(@meetup_member.meetup_id).affinity_score %>
       <br/>
       Title:
+      <br />
+      <% if @meetup_member.twitter %>
+        <b>Twitter Bio:</b>
+        <%= @meetup_member.twitter_member.description %>
+      <% end %>
     </td>
   </tr>
   <tr>
@@ -26,9 +33,11 @@
     <b>Meetup Topics in Common </b>
      [<%= current_user.topics_in_common(@meetup_member).count %>]
   </td> </tr>
-  <tr colspan="2"> <td>
-    <%= print_meetup_topics(get_rand_meetup_topics(current_user.topics_in_common(@meetup_member), 10)) %> 
-  </td></tr>
+  <% if current_user.topics_in_common(@meetup_member) %>
+    <tr colspan="2"> <td>
+      <%= print_meetup_topics(get_rand_meetup_topics(current_user.topics_in_common(@meetup_member), 10)) %> 
+    </td></tr>
+  <% end %>
 
   <% if @meetup_member.twitter %>
     <tr colspan="2"> <td>

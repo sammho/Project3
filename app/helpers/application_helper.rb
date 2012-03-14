@@ -8,7 +8,7 @@ module ApplicationHelper
 
     rand_topics = topics_id_array.sort_by {rand}
 
-    while i < num_topics 
+    while i < num_topics && i < total 
       topic = MeetupTopic.find_by_meetup_id(rand_topics[i])
       topic_objects << topic
       i += 1
@@ -43,12 +43,12 @@ module ApplicationHelper
     rand_followers = followers_id_array.sort_by {rand}
 
     while i < num_followers && i < 20 ## This sets the max amount at 20 
-      break if Twitter.rate_limit_status.remaining_hits < 50
       follower = TwitterMember.find_or_create_from_twitter_id(rand_followers[i])
 
       follower_objects << follower
       i += 1
       break if i >= total
+      break if Twitter.rate_limit_status.remaining_hits < 50
     end
 
     ## TODO: Add a more list if there are more, allow users to see all followers
