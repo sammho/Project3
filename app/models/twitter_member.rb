@@ -40,17 +40,18 @@ class TwitterMember < ActiveRecord::Base
   end
 
   def self.create_from_twitter_object(twitter_user)
+    new_twitter_member = TwitterMember.new
+
+    new_twitter_member.screenname = twitter_user.screen_name
+    new_twitter_member.twitter_id = twitter_user.id
+    new_twitter_member.profile_image_url = twitter_user.profile_image_url
+    new_twitter_member.location = twitter_user.location
+    new_twitter_member.name = twitter_user.name
+    new_twitter_member.description = twitter_user.description
+    new_twitter_member.verified = twitter_user.verified
+
     if twitter_user.protected == true
-      return TwitterMember.create!(:screenname => twitter_user.screen_name,
-                                   :twitter_id => twitter_user.id,
-                                   #:followers => Twitter.follower_ids(screenname), #unavailable if protected
-                                   #:following => Twitter.friend_ids(screenname), #unavailable
-                                   #:categories => Twitter.suggestions(screenname),
-                                   :profile_image_url => twitter_user.profile_image_url,
-                                   :location => twitter_user.location,
-                                   :name => twitter_user.name,
-                                   :description => twitter_user.description,
-                                   :verified => twitter_user.verified)
+      new_twitter_member.save
     else
       twitter_user_followers_c = Twitter.follower_ids(twitter_user.screen_name)
       twitter_followers = twitter_user_followers_c.collection
@@ -62,9 +63,9 @@ class TwitterMember < ActiveRecord::Base
         twitter_followers.concat(more_followers.collection)
         cursor = more_followers.next
 
-        # to protect Twitter API limit, will restrict to 50K followers
+        # to protect Twitter API limit, will restrict to 25K followers
         loop_limit += 1
-        if loop_limit > 10 then
+        if loop_limit > 5  then
           break 
         end
       end
@@ -79,29 +80,26 @@ class TwitterMember < ActiveRecord::Base
         twitter_following.concat(more_following.collection)
         cursor = more_following.next
 
-        # to protect Twitter API limit, will restrict to 50K followers
+        # to protect Twitter API limit, will restrict to 25K followers
         loop_limit += 1
-        if loop_limit > 10 then
+        if loop_limit > 5 then
           break 
         end
       end
 
       puts "Almost there #{twitter_user.screen_name}\n"
 
-      return TwitterMember.create!(:screenname => twitter_user.screen_name,
-                                   :twitter_id => twitter_user.id,
-                                   #:followers => Twitter.follower_ids(screenname),
-                                   #:following => Twitter.friend_ids(screenname),
-                                   :followers => twitter_followers,
-                                   :following => twitter_following,
-                                   :followers_count => twitter_user.followers_count,
-                                   :following_count => twitter_user.friends_count,
-                                   #:categories => Twitter.suggestions(screenname),
-                                   :profile_image_url => twitter_user.profile_image_url,
-                                   :location => twitter_user.location,
-                                   :name => twitter_user.name,
-                                   :description => twitter_user.description,
-                                   :verified => twitter_user.verified)
+      new_twitter_member.followers = twitter_followers
+      new_twitter_member.following = twitter_following
+      new_twitter_member.followers_count = twitter_user.followers_count
+      new_twitter_member.following_count = twitter_user.friends_count
+
+      if new_twitter_member.save
+        return new_twitter_member
+      else
+        puts new_twitter_member.errors.full_messages
+
+      end
     end
   end
 

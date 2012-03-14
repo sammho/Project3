@@ -36,11 +36,14 @@ module ApplicationHelper
   def get_rand_followers(followers_id_array, num_followers)
     i = 0
     follower_objects = [] 
+
+
     total = followers_id_array.count
 
     rand_followers = followers_id_array.sort_by {rand}
 
     while i < num_followers && i < 20 ## This sets the max amount at 20 
+      break if Twitter.rate_limit_status.remaining_hits < 50
       follower = TwitterMember.find_or_create_from_twitter_id(rand_followers[i])
 
       follower_objects << follower
@@ -56,13 +59,17 @@ module ApplicationHelper
   ## Given an array of Twitter Followers, pretty print with screennames and pictures with urls 
   def print_twitter_followers(followers)
     followers_string = ""
+    followers_names = ""
 
     followers.each do |follower|
       #follower_string << "#{link_to(follower.name, follower.urlkey)} "
       follower_link = link_to image_tag(follower.profile_image_url, :width => "32"), 
                       "http://twitter.com/#{follower.screenname}"
-      followers_string << follower_link
+      followers_string << "#{follower_link}"
+      followers_names << "#{follower.screenname}"
     end
+
+    followers_string << "<br /> #{followers_names}"
     
     return raw(followers_string)
 
