@@ -37,12 +37,11 @@ module ApplicationHelper
     i = 0
     follower_objects = [] 
 
-
     total = followers_id_array.count
 
     rand_followers = followers_id_array.sort_by {rand}
 
-    while i < num_followers && i < 20 ## This sets the max amount at 20 
+    while i < num_followers && i < 20 && i < total ## This sets the max amount at 20 
       follower = TwitterMember.find_or_create_from_twitter_id(rand_followers[i])
 
       follower_objects << follower

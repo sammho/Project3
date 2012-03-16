@@ -1,11 +1,11 @@
 source 'http://rubygems.org'
 
 gem 'rails', '3.1.1'
-gem 'rMeetup'
 gem 'json'
 
 gem 'twitter'
 gem 'awesome_print'
+gem 'rMeetup'
 
 # Added for heroku issue
 gem 'bundler', '1.0.21'
